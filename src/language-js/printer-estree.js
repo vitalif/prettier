@@ -1056,22 +1056,22 @@ function printPathNoParens(path, options, print, args) {
         !hasDirectives &&
         !hasDanglingComments(n) &&
         (parent.type === "ArrowFunctionExpression" ||
-          parent.type === "FunctionExpression" ||
-          parent.type === "FunctionDeclaration" ||
-          parent.type === "ObjectMethod" ||
-          parent.type === "ClassMethod" ||
-          parent.type === "ClassPrivateMethod" ||
-          parent.type === "ForStatement" ||
-          parent.type === "WhileStatement" ||
+          0 && parent.type === "FunctionExpression" ||
+          0 && parent.type === "FunctionDeclaration" ||
+          0 && parent.type === "ObjectMethod" ||
+          0 && parent.type === "ClassMethod" ||
+          0 && parent.type === "ClassPrivateMethod" ||
+          0 && parent.type === "ForStatement" ||
+          0 && parent.type === "WhileStatement" ||
           parent.type === "DoWhileStatement" ||
           parent.type === "DoExpression" ||
-          (parent.type === "CatchClause" && !parentParent.finalizer) ||
+          0 && (parent.type === "CatchClause" && !parentParent.finalizer) ||
           parent.type === "TSModuleDeclaration")
       ) {
         return "{}";
       }
 
-      parts.push("{");
+      parts.push(hardline, "{");
 
       // Babel 6
       if (hasDirectives) {
@@ -1795,7 +1795,7 @@ function printPathNoParens(path, options, print, args) {
                 comment.trailing && !handleComments.isBlockComment(comment)
             )) ||
           needsHardlineAfterDanglingComment(n);
-        const elseOnSameLine =
+        const elseOnSameLine = 0 &&
           n.consequent.type === "BlockStatement" && !commentOnOwnLine;
         parts.push(elseOnSameLine ? " " : hardline);
 
@@ -1975,7 +1975,7 @@ function printPathNoParens(path, options, print, args) {
         "try ",
         path.call(print, "block"),
         n.handler ? concat([" ", path.call(print, "handler")]) : "",
-        n.finalizer ? concat([" finally ", path.call(print, "finalizer")]) : ""
+        n.finalizer ? concat([hardline, "finally ", path.call(print, "finalizer")]) : ""
       ]);
     case "CatchClause":
       if (n.param) {
@@ -1994,6 +1994,7 @@ function printPathNoParens(path, options, print, args) {
         const param = path.call(print, "param");
 
         return concat([
+          hardline,
           "catch ",
           hasComments
             ? concat(["(", indent(concat([softline, param])), softline, ") "])
@@ -2318,7 +2319,7 @@ function printPathNoParens(path, options, print, args) {
       ]);
     }
     case "ClassBody":
-      if (!n.comments && n.body.length === 0) {
+      if (0 && !n.comments && n.body.length === 0) {
         return "{}";
       }
 
@@ -4612,7 +4613,7 @@ function printClass(path, options, print) {
   }
 
   if (
-    n.body &&
+    1 || n.body &&
     n.body.comments &&
     hasLeadingOwnLineComment(options.originalText, n.body, options)
   ) {
